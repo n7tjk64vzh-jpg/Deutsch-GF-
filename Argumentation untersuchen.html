@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Argumentation untersuchen</title>
+<style>
+/* VOICE: ruhig, klar, schulnah – Arbeitsheft statt Werbeseite
+   IDEA: ein Arbeitsheft mit Markierstiften: Text farbig markieren, Bausteine ordnen
+   PICTURE: der Leserbrief als Markiertext, These–Argument–Beleg als Baustein-Kette
+   COLOUR and TYPE: Hausdesign Terrakotta-Beere & Petrol, Honig als Akzent; Century Schoolbook + Calibri
+   LAYOUT: Kopfzeile wie BKE-Arbeitsblatt, nummerierte Aufgabenkarten, eine Spalte, Lehrkraft-Modus blendet Lösungen ein */
+:root{color-scheme:light dark;
+--bg:light-dark(#FBF5EE,#1d1517);--card:light-dark(#fff,#281e21);--ink:light-dark(#2C2320,#f3e9e4);--mut:light-dark(#6C5A56,#c3b0aa);--fai:light-dark(#A08E88,#8f7c77);--line:light-dark(#ECDCD4,#3e3033);
+--pr:light-dark(#A04A4C,#d47c7e);--prd:light-dark(#5A2A31,#f1dcd2);--prl:light-dark(#F1DCD2,#45282d);
+--pe:light-dark(#3E7370,#7fb5b1);--ped:light-dark(#1F4A48,#dce9e7);--pel:light-dark(#DCE9E7,#1f3a39);
+--ho:light-dark(#C08A3E,#dcaa5f);--hol:light-dark(#F7E8CE,#3d3020);
+--hf:"Century Schoolbook","C059","TeX Gyre Schola","New Century Schoolbook",Georgia,serif;--bf:Calibri,Carlito,"Segoe UI",Arial,sans-serif}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 var(--bf);overflow-x:clip}
+h1,h2,h3{font-family:var(--hf);line-height:1.1;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,4.5vw,46px);color:var(--prd)}h2{font-size:clamp(24px,3vw,30px);color:var(--prd)}h3{font-size:19px}
+button,select,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;min-height:44px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);padding:8px 16px}
+button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible,.s:focus-visible{outline:3px solid var(--ho);outline-offset:2px}
+.btn{background:var(--pe);border-color:var(--pe);color:#fff;font-weight:600}.btn:hover{background:var(--ped);color:var(--bg)}
+html{scroll-padding-top:80px;scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+.wrap{max-width:980px;margin:0 auto;padding:0 max(4vw,14px)}
+/* Kopf */
+.head{background:var(--prd);color:#FBF5EE;padding:14px 0}
+:root[data-theme=dark] .head,.head{background:light-dark(#5A2A31,#3a1d22)}
+.head .wrap{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;justify-content:space-between}
+.meta{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px;opacity:.92}.meta b{font-weight:600}
+.tbtn{background:transparent;color:#FBF5EE;border-color:rgba(251,245,238,.5)}.tbtn[aria-pressed=true]{background:var(--ho);border-color:var(--ho);color:#2C2320;font-weight:700}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:8px}
+nav a{flex:none;text-decoration:none;color:var(--mut);padding:8px 12px;border-radius:999px;font-size:15px;white-space:nowrap}
+nav a:hover{background:var(--prl);color:var(--prd)}
+.hero{padding:clamp(28px,4vw,48px) 0 8px}
+.hero p.k{color:var(--pr);font-weight:600;margin:0 0 8px}
+.lead{max-width:62ch;color:var(--mut);margin:12px 0 0}
+/* Karten */
+section{padding:20px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,30px);box-shadow:0 1px 0 var(--line)}
+.task{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-bottom:14px}
+.num{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--pr);color:#fff;font:700 19px var(--hf);flex:none}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto;font-size:14px;color:var(--mut)}
+.tag{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.tag svg{width:18px;height:18px;fill:var(--pe)}
+.auf{margin:0 0 14px}.auf li{margin:4px 0}
+.hint{background:var(--hol);border-radius:10px;padding:10px 14px;margin-top:12px;font-size:16px}
+details.hint summary{cursor:pointer;font-weight:600;color:light-dark(#7a5416,#f0c98a)}
+/* Szenario */
+.scen{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:24px;align-items:center;background:var(--pel);border:0}
+.scen svg{width:100%;height:auto}
+.scen p{margin:.5em 0}
+@media(max-width:640px){.scen{grid-template-columns:1fr}.scen svg{max-width:200px;margin:0 auto;display:block}}
+/* Wissen */
+.chain{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:6px 0 18px}
+.bb{border-radius:14px;padding:16px;border:2px solid;position:relative}
+.bb h3{margin-bottom:6px}.bb p{margin:0;font-size:16px}.bb .q{font-weight:700;margin-top:8px}
+.bb.t{border-color:var(--pr);background:var(--prl)}.bb.a{border-color:var(--pe);background:var(--pel)}.bb.b{border-color:var(--ho);background:var(--hol)}
+.bb:not(:last-child)::after{content:"→";position:absolute;right:-14px;top:50%;transform:translate(50%,-50%);font-size:22px;color:var(--fai)}
+@media(max-width:640px){.chain{grid-template-columns:1fr}.bb:not(:last-child)::after{content:"↓";right:50%;top:auto;bottom:-14px;transform:translate(50%,50%)}}
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.ty{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--bg)}
+.ty b{display:block;font-family:var(--hf);color:var(--ped);font-size:17px}.ty span{font-size:15px;color:var(--mut)}.ty i{display:block;font-size:15px;margin-top:6px}
+/* Markieren */
+.pal{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.chip{border-width:2px;font-weight:600;font-size:15px;padding:6px 14px;min-height:40px}
+.chip[aria-pressed=true]{color:#fff!important}
+.letter{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:clamp(14px,3vw,26px);font-size:17px;line-height:1.9}
+.letter h3{font-size:18px;margin-bottom:4px}.letter .by{color:var(--mut);font-size:14px;margin-bottom:10px}
+.s{cursor:pointer;border-radius:5px;padding:2px 3px;box-decoration-break:clone;-webkit-box-decoration-break:clone;transition:background .15s}
+.s:hover{outline:1px dashed var(--fai)}
+.s sup{font-size:11px;font-weight:700;color:var(--fai);margin-right:2px}
+.s .lb{font-size:12px;font-weight:700;border-radius:4px;padding:0 5px;margin-left:4px;color:#fff;white-space:nowrap;vertical-align:1px}
+.s.ok{box-shadow:inset 0 -3px 0 #3E7370}.s.no{box-shadow:inset 0 -3px 0 #b3261e}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+.res{font-weight:600;color:var(--ped)}
+/* Zuordnen */
+.items{display:grid;gap:10px}
+.it{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:10px 16px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--bg)}
+.it p{margin:0}.it select{min-height:44px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);padding:6px 10px;width:100%}
+.it.ok{border-color:var(--pe);background:var(--pel)}.it.no{border-color:#b3261e}
+.it .fb{grid-column:1/-1;font-size:15px;color:var(--mut);display:none}.it.no .fb,.it.ok .fb{display:block}
+@media(max-width:600px){.it{grid-template-columns:1fr}}
+/* Kette */
+.ord{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.ord li{display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);border-radius:12px;padding:8px 10px;background:var(--bg)}
+.ord li .tx{flex:1}.ord li .n{font:700 17px var(--hf);color:var(--pr);width:24px;text-align:center;flex:none}
+.ord li button{min-height:40px;min-width:40px;padding:0;font-size:18px}
+.ord li.ok{border-color:var(--pe);background:var(--pel)}.ord li.no{border-color:#b3261e}
+.ord .role{font-size:13px;font-weight:700;color:var(--pe);display:none}.teacher .ord .role{display:inline}
+/* Schreiben */
+.bau{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.bau button{font-size:15px;min-height:40px;background:var(--prl);border-color:transparent;color:var(--prd)}
+textarea{width:100%;min-height:200px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);padding:14px;font-size:16px;line-height:1.6;resize:vertical}
+/* Lehrkraft */
+.lk{display:none;margin-top:16px;border:2px dashed var(--ho);border-radius:12px;padding:14px 16px;background:var(--hol)}
+.lk h4{margin:0 0 6px;font:700 16px var(--bf);color:light-dark(#7a5416,#f0c98a)}.lk p,.lk li{font-size:16px;margin:.3em 0}.lk ul,.lk ol{padding-left:20px;margin:.3em 0}
+.teacher .lk{display:block}
+.only-t{display:none}.teacher .only-t{display:inline-flex}
+.bar{display:none;background:var(--ho);color:#2C2320;font-weight:600;text-align:center;padding:6px 12px;font-size:15px}.teacher .bar{display:block}
+dialog{border:0;border-radius:16px;padding:22px;background:var(--card);color:var(--ink);max-width:min(380px,92vw)}
+dialog::backdrop{background:rgba(44,35,32,.5)}
+dialog input{width:100%;min-height:44px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);padding:8px 12px;font-size:16px;margin:10px 0}
+.err{color:#b3261e;font-size:15px;min-height:1.2em}
+footer{border-top:1px solid var(--line);margin-top:30px;padding:18px 0 30px;color:var(--mut);font-style:italic;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style>
+</head>
+<body>
+<div class="bar" role="status">Lehrkraft-Modus aktiv – Lösungen und Hinweise sind eingeblendet</div>
+<header class="head"><div class="wrap">
+  <div class="meta"><span><b>Bildungsgang:</b> Höhere Berufsfachschule Gesundheit und Soziales</span><span><b>Fach:</b> Deutsch/Kommunikation</span><span><b>Reihe:</b> Argumentation untersuchen</span></div>
+  <button class="tbtn" id="tBtn" aria-pressed="false">Lehrkraft-Modus</button>
+</div></header>
+<nav aria-label="Abschnitte"><div class="wrap">
+  <a href="#start">Einstieg</a><a href="#wissen">1 Bausteine</a><a href="#brief">2 Leserbrief</a><a href="#typen">3 Argumenttypen</a><a href="#kette">4 Kette bauen</a><a href="#erklaeren">5 Aufbau erklären</a>
+</div></nav>
+
+<main class="wrap">
+<div class="hero">
+  <p class="k">Stundenthema</p>
+  <h1>Argumentation untersuchen</h1>
+  <p class="lead">Wir unterscheiden These, Argument und Beleg, lernen verschiedene Argumenttypen kennen und erklären, wie ein argumentierender Text aufgebaut ist.</p>
+</div>
+
+<section id="start"><div class="card scen">
+  <div>
+    <h2>Mira hat eine Meinung</h2>
+    <p>Mira ist 17 und macht ihr Praktikum im Seniorenzentrum „Haus am Mühlenbach“ in Erkelenz. Sie merkt jeden Tag, wie müde viele Pflegekräfte sind. Darum schreibt sie einen Leserbrief an die Lokalzeitung.</p>
+    <p>Ihre Praxisanleiterin liest den Text und sagt: „Gute Idee! Aber überzeugt dein Brief wirklich? Wo ist deine Meinung, wo sind deine Gründe – und womit beweist du sie?“</p>
+    <p><b>Deine Aufgabe heute:</b> Du prüfst Miras Leserbrief wie eine Expertin oder ein Experte.</p>
+  </div>
+  <svg viewBox="0 0 220 200" role="img" aria-label="Zeichnung: Mira mit einem Brief">
+    <ellipse cx="110" cy="188" rx="80" ry="8" fill="#1F4A48" opacity=".15"/>
+    <path d="M60 190 Q62 120 110 118 Q158 120 160 190Z" fill="#3E7370"/>
+    <path d="M92 122 L110 150 L128 122" fill="#DCE9E7"/>
+    <circle cx="110" cy="80" r="34" fill="#F1DCD2"/>
+    <path d="M74 84 Q70 40 110 38 Q152 40 146 86 Q142 58 112 56 Q84 58 74 84Z" fill="#5A2A31"/>
+    <path d="M140 70 Q160 96 150 120 Q146 100 140 92Z" fill="#5A2A31"/>
+    <circle cx="98" cy="84" r="3.2" fill="#2C2320"/><circle cx="122" cy="84" r="3.2" fill="#2C2320"/>
+    <path d="M100 98 Q110 105 120 98" stroke="#A04A4C" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <g transform="rotate(-8 150 150)"><rect x="128" y="128" width="56" height="44" rx="4" fill="#fff" stroke="#C08A3E" stroke-width="2.5"/>
+    <path d="M128 132 L156 152 L184 132" fill="none" stroke="#C08A3E" stroke-width="2.5"/>
+    <rect x="166" y="136" width="12" height="10" fill="#A04A4C"/></g>
+  </svg>
+</div>
+<div class="lk"><h4>Hinweis für die Lehrkraft · Einstieg (ca. 5 min, Plenum)</h4>
+  <p>Szenario vorlesen lassen. Impulsfrage: „Was braucht ein Text, damit er überzeugt?“ Antworten an der Tafel sammeln und am Ende von Aufgabe 1 auf die Begriffe These, Argument, Beleg zurückführen.</p>
+  <p>Lebensweltbezug: Viele SuS erleben im Praktikum selbst Personalmangel – kurz Erfahrungen einholen, aber nicht ausufern lassen.</p>
+</div></section>
+
+<section id="wissen"><div class="card">
+  <div class="task"><span class="num">1</span><h2>Die drei Bausteine</h2>
+    <div class="tags"><span class="tag" data-ic="ea">Einzelarbeit</span><span class="tag">10 min</span></div></div>
+  <ol class="auf"><li>Lies die drei Bausteine und die Argumenttypen.</li><li>Erkläre deiner Sitznachbarin oder deinem Sitznachbarn in eigenen Worten den Unterschied zwischen Argument und Beleg.</li></ol>
+  <div class="chain">
+    <div class="bb t"><h3>These</h3><p>Die Meinung oder Behauptung, um die es geht.</p><p class="q">Was meine ich?</p></div>
+    <div class="bb a"><h3>Argument</h3><p>Die Begründung für die These. Oft eingeleitet mit „weil“, „denn“, „da“.</p><p class="q">Warum meine ich das?</p></div>
+    <div class="bb b"><h3>Beleg / Beispiel</h3><p>Stützt das Argument: Zahlen, Fakten, Erfahrungen, Aussagen von Fachleuten.</p><p class="q">Woran sieht man das?</p></div>
+  </div>
+  <h3 style="margin-bottom:10px">Argumenttypen – welche Art von Begründung?</h3>
+  <div class="types">
+    <div class="ty"><b>Faktenargument</b><span>stützt sich auf Zahlen, Studien, überprüfbare Tatsachen.</span><i>„Studien zeigen, dass …“</i></div>
+    <div class="ty"><b>Autoritätsargument</b><span>beruft sich auf eine Fachperson oder Institution.</span><i>„Eine Ärztin erklärt, dass …“</i></div>
+    <div class="ty"><b>Erfahrungsargument</b><span>nutzt eigene Erlebnisse oder die von anderen.</span><i>„In meinem Praktikum habe ich erlebt …“</i></div>
+    <div class="ty"><b>Normatives Argument</b><span>beruft sich auf Werte, Regeln, Rechte („gerecht“, „Würde“).</span><i>„Jeder Mensch hat ein Recht auf …“</i></div>
+    <div class="ty"><b>Analogieargument</b><span>vergleicht mit einem ähnlichen Fall.</span><i>„Genauso wie bei …, ist es auch hier …“</i></div>
+  </div>
+  <details class="hint"><summary>Tipp: So unterscheidest du Argument und Beleg</summary>
+    Frag dich: Ist der Satz noch eine allgemeine Begründung? Dann ist es ein <b>Argument</b>. Nennt der Satz etwas Konkretes, das man nachprüfen oder sich vorstellen kann (Zahl, Name, Erlebnis)? Dann ist es ein <b>Beleg</b>.</details>
+  <div class="lk"><h4>Erwartung</h4>
+    <p>Argument = allgemeine Begründung der These; Beleg = konkreter Nachweis, der das Argument glaubwürdig macht. Ohne Beleg bleibt ein Argument eine bloße Behauptung.</p>
+    <p>Fachlicher Hinweis: In der Literatur werden Argumenttypen oft auch auf Belege angewendet (z. B. „Autoritätsbeleg“). Für die HBFS reicht es, den Typ an der <i>Art der Begründung</i> festzumachen.</p></div>
+</div></section>
+
+<section id="brief"><div class="card">
+  <div class="task"><span class="num">2</span><h2>Miras Leserbrief markieren</h2>
+    <div class="tags"><span class="tag" data-ic="ea">Einzelarbeit</span><span class="tag" data-ic="pa">Partnerarbeit</span><span class="tag">15 min</span></div></div>
+  <ol class="auf"><li>Wähle unten einen Stift (z. B. „These“) und klicke dann auf die passenden Sätze.</li><li>Vergleicht eure Markierungen zu zweit und klickt auf „Prüfen“.</li></ol>
+  <div class="pal" id="pal"></div>
+  <div class="letter" id="letter"><h3>Leserbrief: Vier Tage arbeiten, drei Tage durchatmen</h3><div class="by">Mira K., Praktikantin, Erkelenz · fiktiver Text für den Unterricht</div><div id="ltxt"></div></div>
+  <div class="row"><button class="btn" id="chk2">Prüfen</button><button id="rst2">Zurücksetzen</button><button class="only-t" id="sol2">Lösung einblenden</button><span class="res" id="res2" aria-live="polite"></span></div>
+  <details class="hint"><summary>Tipp für den Start</summary>Die These steht meistens am Anfang und wird am Schluss wiederholt. Achte auf Signalwörter: „Ich bin der Meinung“, „Erstens“, „zum Beispiel“, „Natürlich …, aber …“.</details>
+  <div class="lk"><h4>Lösung</h4><ol id="lk2"></ol>
+    <p><b>Differenzierung:</b> Schwächere SuS markieren nur These, Argumente und Belege (Satz 2–8). Stärkere SuS bestimmen zusätzlich den Argumenttyp der drei Argumente: (1) Faktenargument, (2) Erfahrungsargument, (3) normatives Argument.</p></div>
+</div></section>
+
+<section id="typen"><div class="card">
+  <div class="task"><span class="num">3</span><h2>Argumenttypen erkennen</h2>
+    <div class="tags"><span class="tag" data-ic="pa">Partnerarbeit</span><span class="tag">10 min</span></div></div>
+  <p class="auf">Thema: <i>„Sollte jede Kita einen festen Waldtag pro Woche haben?“</i> – Ordne jeder Aussage den passenden Argumenttyp zu.</p>
+  <div class="items" id="items"></div>
+  <div class="row"><button class="btn" id="chk3">Prüfen</button><button id="rst3">Zurücksetzen</button><button class="only-t" id="sol3">Lösung einblenden</button><span class="res" id="res3" aria-live="polite"></span></div>
+  <div class="lk"><h4>Lösung</h4><ol id="lk3"></ol></div>
+</div></section>
+
+<section id="kette"><div class="card">
+  <div class="task"><span class="num">4</span><h2>Eine Argumentationskette bauen</h2>
+    <div class="tags"><span class="tag" data-ic="pa">Partnerarbeit</span><span class="tag">10 min</span></div></div>
+  <p class="auf">Die Bausteine sind durcheinandergeraten. Bringt sie mit den Pfeilen in eine sinnvolle Reihenfolge: <b>These → Argument → Beleg → Beispiel → Folgerung</b>.</p>
+  <ol class="ord" id="ord"></ol>
+  <div class="row"><button class="btn" id="chk4">Prüfen</button><button id="rst4">Neu mischen</button><button class="only-t" id="sol4">Lösung einblenden</button><span class="res" id="res4" aria-live="polite"></span></div>
+  <div class="lk"><h4>Lösung & Hinweis</h4><p>Reihenfolge siehe eingeblendete Rollen. Satz 3 und 4 dürfen getauscht werden, wenn die SuS es begründen können (Beleg und Beispiel stützen beide das Argument). Die Prüffunktion akzeptiert beide Varianten.</p>
+  <p>Merksatz an die Tafel: <i>Eine These ohne Argument ist nur eine Meinung. Ein Argument ohne Beleg ist nur eine Behauptung.</i></p></div>
+</div></section>
+
+<section id="erklaeren"><div class="card">
+  <div class="task"><span class="num">5</span><h2>Den Aufbau erklären</h2>
+    <div class="tags"><span class="tag" data-ic="ea">Einzelarbeit</span><span class="tag">15 min</span></div></div>
+  <p class="auf">Erkläre schriftlich, wie Miras Leserbrief aufgebaut ist. Nenne die These, die drei Argumente mit ihren Belegen und sage, wie Mira mit dem Gegenargument umgeht. Klicke auf die Satzbausteine, um sie in deinen Text einzufügen.</p>
+  <div class="bau" id="bau"></div>
+  <label for="txt" class="hint" style="display:block;background:none;padding:0 0 6px;margin:0;font-weight:600">Dein Text</label>
+  <textarea id="txt" placeholder="In ihrem Leserbrief vertritt Mira K. die These, dass …"></textarea>
+  <div class="row"><button id="cpy">Text kopieren</button><span class="res" id="res5" aria-live="polite"></span></div>
+  <details class="hint"><summary>Checkliste: Hast du an alles gedacht?</summary>
+    <ul style="margin:.4em 0;padding-left:20px"><li>Autorin, Textsorte und Thema in der Einleitung genannt</li><li>These in eigenen Worten wiedergegeben</li><li>alle drei Argumente mit Beleg erklärt</li><li>Umgang mit dem Gegenargument beschrieben</li><li>Schluss: Was fordert Mira?</li><li>Präsens und indirekte Wiedergabe („Mira meint, dass …“)</li></ul></details>
+  <div class="lk"><h4>Musterlösung</h4>
+    <p>In ihrem Leserbrief „Vier Tage arbeiten, drei Tage durchatmen“ setzt sich die Praktikantin Mira K. mit der Arbeitszeit in der Pflege auseinander. Als Anlass nennt sie ihre Beobachtung, dass viele Pflegekräfte in ihrem Praktikumsbetrieb erschöpft sind.</p>
+    <p>Sie vertritt die These, dass Pflegekräfte eine Vier-Tage-Woche bei gleichem Lohn bekommen sollten. Ihr erstes Argument lautet, dass sich die Beschäftigten so besser erholen und seltener krank würden. Als Beleg führt sie an, dass in ihrer Einrichtung im Oktober sieben von zwanzig Mitarbeitenden krank waren; zusätzlich zitiert sie die erfahrene Pflegedienstleitung. Als zweites Argument nennt sie, dass der Beruf für junge Menschen attraktiver würde. Das belegt sie mit dem Beispiel ihrer Mitschülerin Aylin. Ihr drittes Argument ist ein normatives: Es sei fair, dass Menschen, die andere versorgen, auch Zeit für sich selbst haben.</p>
+    <p>Anschließend greift Mira das Gegenargument der höheren Kosten auf und entkräftet es, indem sie darauf hinweist, dass weniger Krankheitstage und Kündigungen ebenfalls Geld sparen. Am Schluss wiederholt sie ihre These als Appell und fordert, die Vier-Tage-Woche ein Jahr lang zu testen.</p>
+    <p>Insgesamt ist der Leserbrief klar aufgebaut: Einleitung, These, drei Argumente mit Belegen, Gegenargument mit Entkräftung und Schluss. Schwach ist der Beleg zum zweiten Argument, weil die Aussage einer einzelnen Mitschülerin wenig aussagekräftig ist.</p>
+    <h4 style="margin-top:12px">Bewertungshinweise</h4>
+    <ul><li>Einleitung mit Autorin, Textsorte, Thema</li><li>These korrekt und in eigenen Worten</li><li>3 Argumente + Belege zutreffend zugeordnet</li><li>Gegenargument und Entkräftung erkannt</li><li>Fachbegriffe sicher verwendet, Präsens, indirekte Rede</li><li>Für stärkere SuS: begründete Einschätzung der Belegqualität</li></ul>
+    <p><b>Sicherung (ca. 10 min, Plenum):</b> 2–3 Texte vorlesen lassen, Feedback anhand der Checkliste. Hausaufgabe/Transfer: eigene Argumentationskette zu einer selbst gewählten Praxisfrage schreiben.</p>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span>Frau Neyka</span><span>Berufskolleg Erkelenz</span><span>SJ 26/27</span></div></footer>
+
+<dialog id="dlg" aria-labelledby="dlgT">
+  <form id="dlgF">
+    <h3 id="dlgT">Lehrkraft-Modus</h3>
+    <p style="margin:.5em 0 0;font-size:15px;color:var(--mut)">Bitte Code eingeben, um Lösungen einzublenden.</p>
+    <input id="code" autocomplete="off" aria-label="Code">
+    <div class="err" id="err"></div>
+    <div class="row" style="margin-top:6px"><button type="submit" class="btn">Freischalten</button><button type="button" id="dlgX">Abbrechen</button></div>
+  </form>
+</dialog>
+
+<script>
+{
+const $=s=>document.querySelector(s);
+const CODE='BKE';
+const ic={ea:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M4 22c0-5 3.6-8 8-8s8 3 8 8z"/></svg>',
+pa:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="7" r="3.4"/><circle cx="16.5" cy="7" r="3.4"/><path d="M1 21c0-4 3-7 7-7s7 3 7 7zM13 21c.3-2.4-.5-4.6-2-6.2 1.6-.6 3.6-.8 5.5-.8 4 0 6.5 3 6.5 7z"/></svg>'};
+document.querySelectorAll('[data-ic]').forEach(t=>t.insertAdjacentHTML('afterbegin',ic[t.dataset.ic]));
+
+/* Lehrkraft-Modus */
+const tBtn=$('#tBtn'),dlg=$('#dlg');
+const setT=on=>{document.body.classList.toggle('teacher',on);tBtn.setAttribute('aria-pressed',on);tBtn.textContent=on?'Lehrkraft-Modus beenden':'Lehrkraft-Modus'};
+tBtn.addEventListener('click',()=>{if(document.body.classList.contains('teacher'))return setT(false);$('#code').value='';$('#err').textContent='';dlg.showModal();$('#code').focus()});
+$('#dlgF').addEventListener('submit',e=>{e.preventDefault();if($('#code').value.trim().toUpperCase()===CODE){dlg.close();setT(true)}else $('#err').textContent='Der Code stimmt nicht.'});
+$('#dlgX').addEventListener('click',()=>dlg.close());
+
+/* Aufgabe 2 */
+const L=[{k:'ein',n:'Einleitung',c:'#9a8a84'},{k:'the',n:'These',c:'#A04A4C'},{k:'arg',n:'Argument',c:'#3E7370'},{k:'bel',n:'Beleg/Beispiel',c:'#C08A3E'},{k:'geg',n:'Gegenargument & Entkräftung',c:'#5A2A31'},{k:'sch',n:'Schluss',c:'#6C5A56'}];
+const S=[
+['Ich mache gerade mein Praktikum im Seniorenzentrum „Haus am Mühlenbach“ und erlebe jeden Tag, wie erschöpft viele Pflegekräfte sind.','ein','Anlass: persönliche Beobachtung'],
+['Deshalb bin ich der Meinung: Pflegekräfte sollten eine Vier-Tage-Woche bei gleichem Lohn bekommen.','the','Signal: „Ich bin der Meinung“'],
+['Erstens würden sich die Beschäftigten besser erholen und seltener krank werden.','arg','Argument 1 (Faktenargument)'],
+['In unserem Haus fielen allein im Oktober sieben von zwanzig Kolleginnen und Kollegen wegen Krankheit aus.','bel','Beleg zu Argument 1: Zahl'],
+['Auch unsere Pflegedienstleitung, Frau Breuer, die seit 25 Jahren in der Pflege arbeitet, sagt: „Ausgeruhte Pflegekräfte machen weniger Fehler.“','bel','Beleg zu Argument 1: Aussage einer Fachperson'],
+['Zweitens wird der Beruf dadurch für junge Leute attraktiver.','arg','Argument 2 (Erfahrungsargument)'],
+['Meine Mitschülerin Aylin sagt zum Beispiel, sie würde sofort in die Pflege gehen, wenn sie einen Tag mehr frei hätte.','bel','Beispiel zu Argument 2'],
+['Drittens ist es einfach fair, wenn Menschen, die sich jeden Tag um andere kümmern, auch selbst Zeit für ihre Familie und ihre Gesundheit haben.','arg','Argument 3 (normatives Argument)'],
+['Natürlich kostet eine Vier-Tage-Woche Geld.','geg','Gegenargument'],
+['Aber wenn weniger Menschen krank werden oder kündigen, spart das am Ende auch Kosten.','geg','Entkräftung des Gegenarguments'],
+['Deshalb fordere ich: Probieren wir die Vier-Tage-Woche wenigstens ein Jahr lang aus!','sch','Schluss: These als Appell wiederholt']];
+let pen='the';const mark=S.map(()=>null);
+const lab=k=>L.find(x=>x.k===k);
+const drawPal=()=>{$('#pal').innerHTML=L.map(l=>`<button class="chip" data-k="${l.k}" aria-pressed="${pen===l.k}" style="border-color:${l.c};color:${l.c};${pen===l.k?'background:'+l.c:''}">${l.n}</button>`).join('')+`<button class="chip" data-k="" aria-pressed="${pen===''}">Radierer</button>`};
+const drawTxt=(fb)=>{$('#ltxt').innerHTML=S.map((s,i)=>{const m=mark[i]&&lab(mark[i]);const cls=fb?(mark[i]===s[1]?' ok':' no'):'';
+return `<span class="s${cls}" tabindex="0" role="button" data-i="${i}" style="${m?'background:'+m.c+'26':''}"><sup>${i+1}</sup>${s[0]}${m?`<span class="lb" style="background:${m.c}">${m.n}</span>`:''}</span> `}).join('')};
+$('#pal').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;pen=b.dataset.k;drawPal()});
+const hit=e=>{const s=e.target.closest('.s');if(!s)return;const i=+s.dataset.i;mark[i]=pen||null;drawTxt();$('#res2').textContent=''};
+$('#ltxt').addEventListener('click',hit);
+$('#ltxt').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hit(e);document.querySelector(`.s[data-i="${e.target.dataset.i}"]`)?.focus()}});
+$('#chk2').addEventListener('click',()=>{const r=S.filter((s,i)=>mark[i]===s[1]).length;drawTxt(true);$('#res2').textContent=`${r} von ${S.length} Sätzen richtig markiert.`+(r===S.length?' Stark!':' Rot unterstrichene Sätze noch einmal prüfen.')});
+$('#rst2').addEventListener('click',()=>{mark.fill(null);drawTxt();$('#res2').textContent=''});
+$('#sol2').addEventListener('click',()=>{S.forEach((s,i)=>mark[i]=s[1]);drawTxt(true);$('#res2').textContent='Lösung eingeblendet.'});
+$('#lk2').innerHTML=S.map(s=>`<li><b>${lab(s[1]).n}</b> – ${s[2]}</li>`).join('');
+drawPal();drawTxt();
+
+/* Aufgabe 3 */
+const T=['Faktenargument','Autoritätsargument','Erfahrungsargument','Normatives Argument','Analogieargument'];
+const I=[
+['Kinder, die regelmäßig draußen spielen, sind nachweislich seltener erkältet und motorisch geschickter.',0,'Bezieht sich auf überprüfbare Ergebnisse („nachweislich“).'],
+['Eine Kinderärztin vom Gesundheitsamt Heinsberg empfiehlt, dass Kinder jeden Tag mindestens eine Stunde an der frischen Luft verbringen.',1,'Beruft sich auf eine Fachperson.'],
+['In meinem Praktikum habe ich erlebt, dass die Kinder nach dem Waldtag viel ruhiger und ausgeglichener waren.',2,'Eigenes Erlebnis („habe ich erlebt“).'],
+['Jedes Kind hat ein Recht darauf, die Natur kennenzulernen – auch wenn es in der Stadt wohnt.',3,'Beruft sich auf ein Recht bzw. einen Wert.'],
+['Genauso wie Erwachsene nach langer Büroarbeit Bewegung brauchen, brauchen Kinder nach dem Basteln Zeit zum Toben.',4,'Vergleich mit einem ähnlichen Fall („Genauso wie …“).'],
+['Laut Bildungsgrundsätzen NRW gehören Bewegung und Naturerfahrung zu den zentralen Bildungsbereichen in der Kita.',1,'Beruft sich auf eine Institution bzw. ein offizielles Dokument.'],
+['Meine Cousine arbeitet in einem Waldkindergarten und erzählt, dass dort fast nie Streit um Spielzeug entsteht.',2,'Erfahrung einer anderen Person.'],
+['Es ist ungerecht, wenn nur Kinder aus Familien mit Garten regelmäßig draußen spielen können.',3,'Wertung „ungerecht“ – es geht um Gerechtigkeit.']];
+const sel=I.map(()=>'');
+const drawItems=fb=>{$('#items').innerHTML=I.map((it,i)=>{const c=fb&&sel[i]!==''?(+sel[i]===it[1]?' ok':' no'):'';
+return `<div class="it${c}"><p><b>${i+1}.</b> ${it[0]}</p><select data-i="${i}" aria-label="Argumenttyp zu Aussage ${i+1}"><option value="">– Typ wählen –</option>${T.map((t,j)=>`<option value="${j}" ${sel[i]===String(j)?'selected':''}>${t}</option>`).join('')}</select><div class="fb">${c===' ok'?'Richtig: ':'Noch nicht. Tipp: '}${it[2]}</div></div>`}).join('')};
+$('#items').addEventListener('change',e=>{const s=e.target.closest('select');if(!s)return;sel[+s.dataset.i]=s.value;$('#res3').textContent=''});
+$('#chk3').addEventListener('click',()=>{const r=I.filter((it,i)=>+sel[i]===it[1]&&sel[i]!=='').length;drawItems(true);$('#res3').textContent=`${r} von ${I.length} richtig.`});
+$('#rst3').addEventListener('click',()=>{sel.fill('');drawItems();$('#res3').textContent=''});
+$('#sol3').addEventListener('click',()=>{I.forEach((it,i)=>sel[i]=String(it[1]));drawItems(true);$('#res3').textContent='Lösung eingeblendet.'});
+$('#lk3').innerHTML=I.map(it=>`<li><b>${T[it[1]]}</b> – ${it[2]}</li>`).join('');
+drawItems();
+
+/* Aufgabe 4 */
+const K=[['Jede Kita sollte einen festen Waldtag pro Woche einführen.','These'],
+['Denn Bewegung in der Natur stärkt die Gesundheit der Kinder.','Argument'],
+['Fachleute für Kindergesundheit betonen, dass Kinder, die viel draußen sind, seltener krank werden.','Beleg'],
+['In der Kita „Sonnenblume“ in Hückelhoven sind die Fehltage seit Einführung des Waldtags deutlich gesunken.','Beispiel'],
+['Ein Waldtag ist also eine einfache Möglichkeit, Kinder gesünder aufwachsen zu lassen.','Folgerung']];
+let ord=[];
+const shuffle=()=>{do{ord=K.map((_,i)=>i).sort(()=>Math.random()-.5)}while(ord.every((v,i)=>v===i))};
+const right=()=>ord.every((v,i)=>v===i)||ord.join()==='0,1,3,2,4';
+const drawOrd=fb=>{$('#ord').innerHTML=ord.map((k,p)=>{const c=fb?(k===p||(right())?' ok':' no'):'';
+return `<li class="${c}"><span class="n">${p+1}</span><span class="tx">${K[k][0]} <span class="role">· ${K[k][1]}</span></span><button data-p="${p}" data-d="-1" aria-label="Nach oben" ${p===0?'disabled':''}>↑</button><button data-p="${p}" data-d="1" aria-label="Nach unten" ${p===ord.length-1?'disabled':''}>↓</button></li>`}).join('')};
+$('#ord').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const p=+b.dataset.p,q=p+ +b.dataset.d;[ord[p],ord[q]]=[ord[q],ord[p]];drawOrd();$('#res4').textContent='';$(`#ord button[data-p="${q}"][data-d="${b.dataset.d}"]`)?.focus()});
+$('#chk4').addEventListener('click',()=>{drawOrd(true);$('#res4').textContent=right()?'Richtig! Die Kette ist logisch aufgebaut.':'Noch nicht ganz. Rot markierte Bausteine stehen an der falschen Stelle.'});
+$('#rst4').addEventListener('click',()=>{shuffle();drawOrd();$('#res4').textContent=''});
+$('#sol4').addEventListener('click',()=>{ord=K.map((_,i)=>i);drawOrd(true);$('#res4').textContent='Lösung eingeblendet.'});
+shuffle();drawOrd();
+
+/* Aufgabe 5 */
+const B=['In ihrem Leserbrief „…“ setzt sich … mit … auseinander.','Sie vertritt die These, dass …','Ihr erstes Argument lautet, dass …','Als Beleg führt sie an, dass …','Dies veranschaulicht sie am Beispiel …','Anschließend greift sie das Gegenargument auf, dass …','Sie entkräftet es, indem …','Am Schluss fordert sie …','Insgesamt ist der Text … aufgebaut.'];
+$('#bau').innerHTML=B.map((b,i)=>`<button data-i="${i}">${b}</button>`).join('');
+const ta=$('#txt');
+try{ta.value=localStorage.getItem('arg-txt')||''}catch(e){}
+ta.addEventListener('input',()=>{try{localStorage.setItem('arg-txt',ta.value)}catch(e){}});
+$('#bau').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const t=B[+b.dataset.i];const p=ta.selectionStart??ta.value.length;const pre=ta.value.slice(0,p),ins=(pre&&!/\s$/.test(pre)?' ':'')+t+' ';ta.value=pre+ins+ta.value.slice(p);ta.focus();ta.selectionStart=ta.selectionEnd=p+ins.length;ta.dispatchEvent(new Event('input'))});
+$('#cpy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(ta.value);$('#res5').textContent='Kopiert – du kannst den Text jetzt einfügen.'}catch(e){ta.select();$('#res5').textContent='Text markiert – bitte mit Strg+C kopieren.'}});
+}
+</script>
+</body>
+</html>
